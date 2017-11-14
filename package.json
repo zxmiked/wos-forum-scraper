@@ -1,0 +1,19 @@
+{
+  "name": "wos-forum-scrape",
+  "version": "1.0.0",
+  "description": "Scraping WoS forum into semi-structured data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "zxspectrum",
+    "forum",
+    "scrape"
+  ],
+  "author": "MikeD",
+  "license": "ISC",
+  "dependencies": {
+    "node-crawler": "github:deftseo/node-crawler"
+  }
+}
