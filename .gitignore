@@ -2,3 +2,6 @@
 # Ignore modules
 node_modules/
 
+# And package-lock
+package-lock.json
+
