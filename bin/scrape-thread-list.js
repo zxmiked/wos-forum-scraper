@@ -1,8 +1,15 @@
 var Crawler = require('node-crawler/Crawler');
+var csvWriter = require('csv-write-stream');
+var fs = require('fs');
+
 var crawler = Crawler.Crawler();
+
 var startUrl = "https://worldofspectrum.org/forums/discussions/p1";
 var baseUrl = "https://worldofspectrum.org/forums/discussions/p";
 
+var args = process.argv.slice(2);
+var csvFile = (args.length) ? args[0] : '../threads.csv';
+var threadData = [];
 
 crawler
     .startUrl(startUrl)
@@ -25,9 +32,31 @@ crawler
             var $endTime = $page('td.LastUser a.CommentDate time', $row);
             var updateDate = $endTime.attr('datetime');
 
-            console.log(url);
-            console.log("Title: " + title + " (" + commentsLen + ")");
-            console.log("\tCategory: " + catTitle + " (" + catUrl + ")");
-            console.log("\t" + createDate + "/" + updateDate);
+            //console.log(url);
+            //console.log("Title: " + title + " (" + commentsLen + ")");
+            //console.log("\tCategory: " + catTitle + " (" + catUrl + ")");
+            //console.log("\t" + createDate + "/" + updateDate);
+
+            if (url) {            
+                var rowData = {
+                    'link': url,
+                    'title': title,
+                    'category': catTitle,
+                    'categoryLink': catUrl,
+                    'createDate': createDate,
+                    'updateDate': updateDate,
+                    'comments': commentsLen
+                };
+    
+                threadData.push(rowData);
+            }
         });
+    })
+    .on('end', function() {
+        var writer = csvWriter({sendHeaders: false});
+        writer.pipe(fs.createWriteStream(csvFile));
+        threadData.forEach(function(row) {
+            writer.write(row);
+        });
+        writer.end();
     });
