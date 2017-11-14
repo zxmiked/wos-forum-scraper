@@ -37,7 +37,7 @@ crawler
             //console.log("\tCategory: " + catTitle + " (" + catUrl + ")");
             //console.log("\t" + createDate + "/" + updateDate);
 
-            if (url) {            
+            if (url) {
                 var rowData = {
                     'link': url,
                     'title': title,
@@ -47,7 +47,7 @@ crawler
                     'updateDate': updateDate,
                     'comments': commentsLen
                 };
-    
+
                 threadData.push(rowData);
             }
         });
