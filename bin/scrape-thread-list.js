@@ -44,7 +44,7 @@ crawler
             var $endTime = $page('td.LastUser a.CommentDate time', $row);
             var updateDate = $endTime.attr('datetime');
 
-            //console.log(url);
+            //console.log(id, url);
             //console.log("Title: " + title + " (" + commentsLen + ")");
             //console.log("\tCategory: " + catTitle + " (" + catUrl + ")");
             //console.log("\t" + createDate + "/" + updateDate);
