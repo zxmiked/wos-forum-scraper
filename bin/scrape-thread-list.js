@@ -20,6 +20,7 @@ crawler
     .on('page', function(link, $page) {
         $page('table.DiscussionsTable tr.ItemDiscussion').each(function() {
             var $row = $page(this);
+            var id = $row.attr('id').substring(11);
             var $link = $page('td.DiscussionName a.Title', $row);
             var url = $link.attr('href');
             var title = $link.text();
@@ -39,6 +40,7 @@ crawler
 
             if (url) {
                 var rowData = {
+                    'id': parseInt(id, 10),
                     'link': url,
                     'title': title,
                     'category': catTitle,
