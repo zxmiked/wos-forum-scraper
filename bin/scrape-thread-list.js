@@ -18,7 +18,7 @@ crawler
         return nextUrl.startsWith(baseUrl);
     })
     .on('page', function(link, $page) {
-        $page('table.DiscussionsTable tr').each(function() {
+        $page('table.DiscussionsTable tr.ItemDiscussion').each(function() {
             var $row = $page(this);
             var $link = $page('td.DiscussionName a.Title', $row);
             var url = $link.attr('href');
