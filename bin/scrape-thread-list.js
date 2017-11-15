@@ -6,16 +6,27 @@ var crawler = Crawler.Crawler();
 
 var startUrl = "https://worldofspectrum.org/forums/discussions/p1";
 var baseUrl = "https://worldofspectrum.org/forums/discussions/p";
+var nextPage = 1;
 
 var args = process.argv.slice(2);
 var csvFile = (args.length) ? args[0] : '../threads.csv';
 var threadData = [];
 
+
 crawler
     .startUrl(startUrl)
     .follow(function(nextUrl, fromUrl) {
-        return false;
-        return nextUrl.startsWith(baseUrl);
+        var pageNum;
+        var followThis = false;
+        if (nextUrl.startsWith(baseUrl)) {
+            pageNum = parseInt(nextUrl.substring(baseUrl.length), 10);
+            if (pageNum == nextPage + 1) {
+                followThis = true;
+                nextPage++;
+            }
+        }
+
+        return followThis;
     })
     .on('page', function(link, $page) {
         $page('table.DiscussionsTable tr.ItemDiscussion').each(function() {
