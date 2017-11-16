@@ -25,6 +25,7 @@ crawler
         return followThis;
     })
     .on('page', function(link, $page) {
+        // Grab the main post
         $page('div.ItemDiscussion').each(function() {
             var $discussion = $page(this);
             var title = $page('div.PageTitle h1').text().trim();
@@ -46,7 +47,7 @@ crawler
             var $body = $page('div.Item-Body div.Message', $discussion);
             var body = $body.html().trim();
             var $signature = $page('div.Item-Body div.UserSignature', $discussion);
-            var signature = $signature.html().trim();
+            var signature = ($signature.html() || '').trim();
 
             var post = {
                 'dateCreated': createDate,
