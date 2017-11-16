@@ -1,3 +1,4 @@
+var fs = require('fs');
 var Crawler = require('node-crawler/Crawler');
 var crawler = Crawler.Crawler();
 
@@ -69,7 +70,51 @@ crawler
                 'comments': []
             };
 
-            console.log(thread);
+            //console.log(thread);
+        });
+
+        // Grab each comment
+        $page('ul.Comments li.ItemComment').each(function() {
+            var $comment = $page(this);
+            var id = $comment.attr('id').substring(8);
+
+            var $authorLink = $page('span.Author a.PhotoWrap', $comment);
+            var authorName = $authorLink.attr('title');
+            var authorUrl = crawler.normaliseUrl($authorLink.attr('href'), link.href);
+            var $authorImg = $page('img', $authorLink);
+            var authorImg = $authorImg.attr('src');
+
+            var $createDate = $page('div.CommentHeader span.DateCreated time', $comment);
+            var createDate = $createDate.attr('datetime');
+
+            var $body = $page('div.Item-Body div.Message', $comment);
+            var body = $body.html().trim();
+            var $signature = $page('div.Item-Body div.UserSignature', $comment);
+            var signature = ($signature.html() || '').trim();
+
+            var post = {
+                'id': id,
+                'dateCreated': createDate,
+                'author': {
+                    'name': authorName,
+                    'profile': authorUrl,
+                    'image': authorImg
+                },
+                'message': body,
+                'signature': signature
+            };
+            thread.comments.push(post);
+        }); 
+    })
+    .on('end', function() {
+        var fileName = 'threads/' + thread.id + '.json';
+        console.log("Found comments:", thread.comments.length);
+        fs.writeFile(fileName, JSON.stringify(thread), function(err) {
+            if (err) {
+                return console.log(err);
+            }
+
+            console.log("Thread written to ", fileName);
         });
     });
 
