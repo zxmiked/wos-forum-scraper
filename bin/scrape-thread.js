@@ -11,7 +11,6 @@ var thread;
 crawler
     .startUrl(threadUrl)
     .follow(function(nextUrl, fromUrl) {
-        return false;
         var pageNum;
         var followThis = false;
 
