@@ -2,7 +2,8 @@ var fs = require('fs');
 var Crawler = require('node-crawler/Crawler');
 var crawler = Crawler.Crawler();
 
-var threadUrl = "https://worldofspectrum.org/forums/discussion/52892/had-enough";
+var args = process.argv.slice(2);
+var threadUrl = (args.length) ? args[0] : "https://worldofspectrum.org/forums/discussion/52892/had-enough";
 var nextPage = 1;
 var thread;
 
