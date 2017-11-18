@@ -12,15 +12,15 @@ var args = process.argv.slice(2);
 var csvFile = (args.length) ? args[0] : 'threads.csv';
 
 var latestUpdate = '';
-var lastUpdateFile = 'lastUpdate.txt';
-var sinceLastUpdate = true;
-var sinceLastDate = '';
+var lastUpdateFile = 'var/lastUpdate.txt';
+var isUpdateMode = (args.length > 1 && args[1] == 'update') ? true : false;
+var sinceDate = '';
 
 var threadData = [];
 
-if (sinceLastUpdate) {
-    sinceLastDate = fs.readFileSync(lastUpdateFile, 'utf8');
-    console.log("Threads updated since: ", sinceLastDate);
+if (isUpdateMode) {
+    sinceDate = fs.readFileSync(lastUpdateFile, 'utf8');
+    console.log("Threads updated since: ", sinceDate);
 }
 
 
@@ -74,13 +74,15 @@ crawler
                     'comments': commentsLen
                 };
 
-                threadData.push(rowData);
+				if (!isUpdateMode || updateDate > sinceDate) {
+					threadData.push(rowData);
+				}
 
                 if (updateDate > latestUpdate) {
                     latestUpdate = updateDate;
                 }
 
-                if (updateDate > sinceLastDate) {
+                if (updateDate > sinceDate) {
                     hasUpdates = true;
                 }
 
@@ -88,7 +90,7 @@ crawler
 
         });
 
-        if (sinceLastUpdate && !hasUpdates && nextPage > 2) {
+        if (isUpdateMode && !hasUpdates && nextPage > 2) {
             crawler.stop();
         }
     })
