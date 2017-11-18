@@ -63,6 +63,7 @@ crawler
             thread = {
                 'id': id,
                 'title': title,
+                'link': link.href,
                 'post': post,
                 'category': {
                     'name': catTitle,
@@ -85,7 +86,9 @@ crawler
             var $authorImg = $page('img', $authorLink);
             var authorImg = $authorImg.attr('src');
 
-            var $createDate = $page('div.CommentHeader span.DateCreated time', $comment);
+            var $permaLink = $page('div.CommentHeader span.DateCreated a.Permalink', $comment);
+            var permaLink = crawler.normaliseUrl($permaLink.attr('href'), link.href);
+            var $createDate = $page('time', $permaLink);
             var createDate = $createDate.attr('datetime');
 
             var $body = $page('div.Item-Body div.Message', $comment);
@@ -96,6 +99,7 @@ crawler
             var post = {
                 'id': id,
                 'dateCreated': createDate,
+                'link': permaLink,
                 'author': {
                     'name': authorName,
                     'profile': authorUrl,
