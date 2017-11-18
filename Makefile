@@ -1,14 +1,22 @@
 
-.PHONY: load install
+.PHONY: load install update
 
-load: all-threads.csv
+
+update:
+	node bin/scrape-thread-list.js var/threads-update.csv update
+	bin/update-threads.sh
+
+load: var/threads.csv threads/
 	bin/scrape-threads.sh
     
-install: threads/
+install: threads/ var/
 
-all-threads.csv:
-	bin/scrape-thread-list.js all-threads.csv
+var/threads.csv: var/
+	node bin/scrape-thread-list.js var/threads.csv
 
 threads/:
 	mkdir threads
+
+var/:
+	mkdir var
 
