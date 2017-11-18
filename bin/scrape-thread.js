@@ -4,6 +4,7 @@ var crawler = Crawler.Crawler();
 
 var args = process.argv.slice(2);
 var threadUrl = (args.length) ? args[0] : "https://worldofspectrum.org/forums/discussion/52892/had-enough";
+var threadFile = (args.length > 1) ? args[1]: '';
 var nextPage = 1;
 var thread;
 
@@ -112,7 +113,7 @@ crawler
         }); 
     })
     .on('end', function() {
-        var fileName = 'threads/' + thread.id + '.json';
+        var fileName = threadFile || thread.id + '.json';
         console.log("Found comments:", thread.comments.length);
         fs.writeFile(fileName, JSON.stringify(thread), function(err) {
             if (err) {
