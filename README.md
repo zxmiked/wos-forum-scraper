@@ -20,13 +20,16 @@ After cloning this repository:
 
     make install
 
-And to kick off the scraper, and archive the entire forum:
+To create an initial archive of the forum:
 
-    make load
+    make archive
 
-Then when you want to make incremental archives of updated threads:
+Then when you want to make incremental update of the archive:
 
     make update
+
+
+The initial archiving of the forum will take about 3 days to complete, and need about 1Gb of disk space. The subsequent updates depends on the amount of posting activity since the last update/archive was done.
 
 ----
 
