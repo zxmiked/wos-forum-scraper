@@ -18,13 +18,15 @@ into somewhere more publicly accessible and findable.
 
 After cloning this repository:
 
-    npm install
     make install
 
-And to kick off the scraper:
+And to kick off the scraper, and archive the entire forum:
 
     make load
 
+Then when you want to make incremental archives of updated threads:
+
+    make update
 
 ----
 
