@@ -9,7 +9,7 @@ update:
 load: var/threads.csv threads/
 	bin/scrape-threads.sh
     
-install: threads/ var/
+install: threads/ var/ node_modules/
 
 var/threads.csv: var/
 	node bin/scrape-thread-list.js var/threads.csv
@@ -19,4 +19,7 @@ threads/:
 
 var/:
 	mkdir var
+
+node_modules/:
+	npm install
 
