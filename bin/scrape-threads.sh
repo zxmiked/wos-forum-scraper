@@ -16,5 +16,5 @@ while read LINE; do
     fi
 done < $THREAD_FILE
 
-echo "$COUNT lines read."
+echo "$COUNT threads archived."
 
