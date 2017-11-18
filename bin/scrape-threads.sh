@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-THREAD_FILE="all-threads.csv"
+THREAD_LIST="var/threads.csv"
 COUNT=0
 
 while read LINE; do
@@ -12,9 +12,9 @@ while read LINE; do
     if [[ ! -f $THREAD_FILE ]]; then
         THREAD_URL=${FIELDS[1]}
         echo "Retrieving: $THREAD_URL"
-        node bin/scrape-thread.js $THREAD_URL
+        node bin/scrape-thread.js $THREAD_URL $THREAD_FILE
     fi
-done < $THREAD_FILE
+done < $THREAD_LIST
 
 echo "$COUNT threads archived."
 
