@@ -9,7 +9,7 @@ var baseUrl = "https://worldofspectrum.org/forums/discussions/p";
 var nextPage = 1;
 
 var args = process.argv.slice(2);
-var csvFile = (args.length) ? args[0] : '../threads.csv';
+var csvFile = (args.length) ? args[0] : 'threads.csv';
 
 var latestUpdate = '';
 var lastUpdateFile = 'lastUpdate.txt';
