@@ -5,3 +5,7 @@ node_modules/
 # And package-lock
 package-lock.json
 
+# Ignore the two work directories
+var/
+threads/
+
