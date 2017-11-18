@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-THREAD_FILE="updated-threads.csv"
+THREAD_LIST="var/threads-update.csv"
 COUNT=0
 
 while read LINE; do
@@ -11,8 +11,8 @@ while read LINE; do
 
     THREAD_URL=${FIELDS[1]}
     echo "Retrieving: $THREAD_URL"
-    node bin/scrape-thread.js $THREAD_URL
-done < $THREAD_FILE
+    node bin/scrape-thread.js $THREAD_URL $THREAD_FILE
+done < $THREAD_LIST
 
 echo "$COUNT threads updated."
 
