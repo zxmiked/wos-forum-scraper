@@ -10,7 +10,18 @@ var nextPage = 1;
 
 var args = process.argv.slice(2);
 var csvFile = (args.length) ? args[0] : '../threads.csv';
+
+var latestUpdate = '';
+var lastUpdateFile = 'lastUpdate.txt';
+var sinceLastUpdate = true;
+var sinceLastDate = '';
+
 var threadData = [];
+
+if (sinceLastUpdate) {
+    sinceLastDate = fs.readFileSync(lastUpdateFile, 'utf8');
+    console.log("Threads updated since: ", sinceLastDate);
+}
 
 
 crawler
@@ -29,6 +40,8 @@ crawler
         return followThis;
     })
     .on('page', function(link, $page) {
+        var hasUpdates = false;
+
         $page('table.DiscussionsTable tr.ItemDiscussion').each(function() {
             var $row = $page(this);
             var id = $row.attr('id').substring(11);
@@ -62,14 +75,38 @@ crawler
                 };
 
                 threadData.push(rowData);
+
+                if (updateDate > latestUpdate) {
+                    latestUpdate = updateDate;
+                }
+
+                if (updateDate > sinceLastDate) {
+                    hasUpdates = true;
+                }
+
             }
+
         });
+
+        if (sinceLastUpdate && !hasUpdates && nextPage > 2) {
+            crawler.stop();
+        }
     })
     .on('end', function() {
+        // Save the thread list file
         var writer = csvWriter({sendHeaders: false});
         writer.pipe(fs.createWriteStream(csvFile));
         threadData.forEach(function(row) {
             writer.write(row);
         });
         writer.end();
+
+        // Save the lastUpdate
+        fs.writeFile(lastUpdateFile, latestUpdate, function(err) {
+            if (err) {
+                return console.log(err);
+            }
+
+            console.log("Latest update: ", latestUpdate);
+        });
     });
