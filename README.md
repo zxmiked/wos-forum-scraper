@@ -29,7 +29,7 @@ Then when you want to make incremental update of the archive:
     make update
 
 
-The initial archiving of the forum will take about 3 days to complete, and need about 1Gb of disk space. The subsequent updates depends on the amount of posting activity since the last update/archive was done.
+The initial archiving of the forum will take a little over 2 days to complete, and need about 1Gb of disk space. The task is restartable, and picks up where it left off (and retries previously failed scrapes, e.g. resulting from outages/errors on the World of Spectrum website). The subsequent updates depends on the amount of posting activity since the last update/archive was done.
 
 ----
 
