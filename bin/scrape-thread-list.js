@@ -91,6 +91,7 @@ crawler
         });
 
         if (isUpdateMode && !hasUpdates && nextPage > 2) {
+            console.log("Found all recent updates. STOPPING NOW.");
             crawler.stop();
         }
     })
