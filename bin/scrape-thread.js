@@ -70,7 +70,8 @@ crawler
                     'name': catTitle,
                     'link': catUrl
                 },
-                'comments': []
+                'comments': [],
+                'commentCount': 0
             };
 
             //console.log(thread);
@@ -110,6 +111,7 @@ crawler
                 'signature': signature
             };
             thread.comments.push(post);
+            thread.commentCount++;
         }); 
     })
     .on('end', function() {
@@ -120,7 +122,10 @@ crawler
                 return console.log(err);
             }
 
-            console.log("Thread written to ", fileName);
+            console.log(
+                "Thread written to ", fileName, 
+                " (", thread.commentCount, "comments)"
+            );
         });
     });
 
